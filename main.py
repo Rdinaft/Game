@@ -1,10 +1,10 @@
 import pyglet
-
+import math
 from pyglet.gl import *
 from pyglet.window import key
 
 '''манипуляции с окном'''
-window = pyglet.window.Window(width=900, height=600)
+window = pyglet.window.Window(width=841, height=572)
 window.set_caption('Tales')
 pyglet.resource.path = ['game/resources']
 pyglet.resource.reindex()
@@ -24,32 +24,32 @@ wall_left = pyglet.resource.image('walls_left.png')
 wall_right = pyglet.resource.image('walls_right.png')
 wall_top = pyglet.resource.image('walls_top.png')
 wall_bot = pyglet.resource.image('walls_bot.png')
-#walls = [wall_left, wall_right, wall_top, wall_bot]
-'''left_wall = pyglet.shapes.Line(10, 10, 10, window.height-10, width=5, batch=wall_batch)
-right_wall = pyglet.shapes.Line(window.width-10, 10, window.width-10, window.height-10, width=5, batch=wall_batch)
-top_wall = pyglet.shapes.Line(10, window.height-10, window.width-10, window.height-10, width=5, batch=wall_batch)
-bot_wall = pyglet.shapes.Line(10, 10, window.width-10, 10, width=5, batch=wall_batch)'''
-
+wall_list = []
 
 class PhysicalObjects(pyglet.sprite.Sprite):
     def __init__(self, *args, **kwargs):
         super(PhysicalObjects, self).__init__(*args, **kwargs)
+'''    def distance(point_1=(0, 0), point_2=(0, 0)):
+        return math.sqrt((point_1[0] - point_2[0]) ** 2 +(point_1[1] - point_2[1]) ** 2)
+    def collides_with(self, other_object):
+        collision_distance = self.image.width/2 + other_object.image.width/2
+        actual_distance = PhysicalObjects.distance(self.position, other_object.position)
 
+        return (actual_distance <= collision_distance)'''
 
 class Walls(PhysicalObjects):
     def __init__(self, *args, **kwargs):
-        self.wall_left = pyglet.sprite.Sprite(img=wall_left, x=10, y=10, batch=wall_batch)
-        '''while self.wall_left.y <= window.height:
-            self.wall_left.y +=69 
-            self.wall_left'''
+        #super(Walls, self).__init__(wall_list, *args, **kwargs)
+        times_x = window.width // wall_top.width
+        times_y = window.height // wall_left.height
         
-        #self.wall_left = pyglet.sprite.Sprite(img=wall_left, x=10, y=10, batch=wall_batch)
-        #self.wall_left1 = pyglet.sprite.Sprite(img=wall_left, x=10, y=wall_left.y+69, batch=wall_batch)
-        #self.wall_right = pyglet.sprite.Sprite(img=wall_right, *args, **kwargs)
-        #self.wall_top = pyglet.sprite.Sprite(img=wall_top, *args, **kwargs)
-        #self.wall_bot = pyglet.sprite.Sprite(img=wall_bot, *args, **kwargs)
+        for x in range(int(times_x)):
+            wall_list.append(PhysicalObjects(wall_top, x= 15 + x * wall_top.width, y= window.height-30, batch=wall_batch))
+            wall_list.append(PhysicalObjects(wall_bot, x= 15 + x * wall_bot.width, y= 10, batch=wall_batch))
 
-
+        for y in range(int(times_y)):
+            wall_list.append(PhysicalObjects(wall_left, x= 10, y= 10 + y * wall_left.height, batch=wall_batch))
+            wall_list.append(PhysicalObjects(wall_right, x= window.width - 10, y= 10 + y * wall_right.height, batch=wall_batch))
 
 class Player(PhysicalObjects):
     def __init__(self, *args, **kwargs):
@@ -68,12 +68,28 @@ class Player(PhysicalObjects):
 
 main_character = Player(x=window.width//2, y=window.height//2, batch=main_batch)
 main_character.scale = 2.2
-wall = Walls(x=0, y=0)
+
+walls = Walls()
+#walls.scale = 2
+#game_objects = [main_character] + walls
+
+#Walls.wall_list.scale = 2
 
 window.push_handlers(main_character.key_handler)
 
 def update(dt):
     main_character.update(dt)
+    #walls.update()
+
+    '''for i in range(len(game_objects)):
+        for j in range(i+1, len(game_objects)):
+            obj_1 = game_objects[i]
+            obj_2 = game_objects[j]
+    if obj_1.collides_with(obj_2):
+        obj_1.handle_collision_with(obj_2)
+        obj_2.handle_collision_with(obj_1)'''
+    #for wall in wall_list:
+        #wall.update()
 
 @window.event
 def on_draw():
@@ -82,7 +98,7 @@ def on_draw():
     main_batch.draw()
     
 if __name__ == '__main__':
-    pyglet.clock.schedule_interval(update, 1/60.0)  # на 120 уже не ускоряется, но немного фризит
+    pyglet.clock.schedule_interval(update, 1/120.0)  # на 120 уже не ускоряется, но немного фризит
     pyglet.app.run()
 
 # 1. Вывести окно --done
