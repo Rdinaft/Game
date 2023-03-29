@@ -1,59 +1,49 @@
 import pyglet
-import math
-from pyglet.gl import *
 from pyglet.window import key
 
-'''манипуляции с окном'''
-window = pyglet.window.Window(width=841, height=572)
-window.set_caption('Tales')
-pyglet.resource.path = ['game/resources']
-pyglet.resource.reindex()
-window.set_icon(pyglet.resource.image('cat1.png'))
 
-'''создание "коллекций" с визуальными объектами'''
-main_batch = pyglet.graphics.Batch()
-wall_batch = pyglet.graphics.Batch()
+class Graphic:
+    pyglet.resource.path = ['game/resources']
+    pyglet.resource.reindex()
+    main_batch = pyglet.graphics.Batch()
+    wall_batch = pyglet.graphics.Batch()
+    main_character_image = pyglet.resource.image('cat1.png')
+    wall_left = pyglet.resource.image('walls_left.png')
+    wall_right = pyglet.resource.image('walls_right.png')
+    wall_top = pyglet.resource.image('walls_top.png')
+    wall_bot = pyglet.resource.image('walls_bot.png')
+    wall_list = []
 
-'''визуализация персонажа'''
-main_character_image = pyglet.resource.image('cat1.png')
-#walking_frames = [pyglet.resource.image('walk1.png'), pyglet.resource.image('walk2.png')]
-#walking_animation = pyglet.image.Animation.from_image_sequence(walking_frames, duration=0.1, loop=True)
-
-'''визуализация стен'''
-wall_left = pyglet.resource.image('walls_left.png')
-wall_right = pyglet.resource.image('walls_right.png')
-wall_top = pyglet.resource.image('walls_top.png')
-wall_bot = pyglet.resource.image('walls_bot.png')
-wall_list = []
+class Window:
+    window = pyglet.window.Window(width=841, height=572)
+    window.set_caption('Tales')
+    window.set_icon(pyglet.resource.image('cat1.png'))
 
 class PhysicalObjects(pyglet.sprite.Sprite):
     def __init__(self, *args, **kwargs):
         super(PhysicalObjects, self).__init__(*args, **kwargs)
-'''    def distance(point_1=(0, 0), point_2=(0, 0)):
-        return math.sqrt((point_1[0] - point_2[0]) ** 2 +(point_1[1] - point_2[1]) ** 2)
-    def collides_with(self, other_object):
-        collision_distance = self.image.width/2 + other_object.image.width/2
-        actual_distance = PhysicalObjects.distance(self.position, other_object.position)
-
-        return (actual_distance <= collision_distance)'''
+'''    def distancesq(self,target):
+        return (self.x-target.x)**2 + (self.y-target.y)**2
+    def check_collision(self):
+        for i in game_objects:
+            if self.distancesq(i) < (self.width/2 + i.width/2)**2: 
+                return True'''
 
 class Walls(PhysicalObjects):
     def __init__(self, *args, **kwargs):
-        #super(Walls, self).__init__(wall_list, *args, **kwargs)
-        times_x = window.width // wall_top.width
-        times_y = window.height // wall_left.height
+        times_x = Window.window.width // Graphic.wall_top.width
+        times_y = Window.window.height // Graphic.wall_left.height
         
         for x in range(int(times_x)):
-            wall_list.append(PhysicalObjects(wall_top, x= 15 + x * wall_top.width, y= window.height-30, batch=wall_batch))
-            wall_list.append(PhysicalObjects(wall_bot, x= 15 + x * wall_bot.width, y= 10, batch=wall_batch))
-
+            Graphic.wall_list.append(PhysicalObjects(Graphic.wall_top, x= 15 + x * Graphic.wall_top.width, y= Window.window.height-30, batch=Graphic.wall_batch))
+            Graphic.wall_list.append(PhysicalObjects(Graphic.wall_bot, x= 15 + x * Graphic.wall_bot.width, y= 10, batch=Graphic.wall_batch))
         for y in range(int(times_y)):
-            wall_list.append(PhysicalObjects(wall_left, x= 10, y= 10 + y * wall_left.height, batch=wall_batch))
-            wall_list.append(PhysicalObjects(wall_right, x= window.width - 10, y= 10 + y * wall_right.height, batch=wall_batch))
+            Graphic.wall_list.append(PhysicalObjects(Graphic.wall_left, x= 10, y= 10 + y * Graphic.wall_left.height, batch=Graphic.wall_batch))
+            Graphic.wall_list.append(PhysicalObjects(Graphic.wall_right, x= Window.window.width - 10, y= 10 + y * Graphic.wall_right.height, batch=Graphic.wall_batch))
 
 class Player(PhysicalObjects):
     def __init__(self, *args, **kwargs):
-        super(Player, self).__init__(img=main_character_image, *args, **kwargs)
+        super(Player, self).__init__(img=Graphic.main_character_image, *args, **kwargs)
         self.key_handler = key.KeyStateHandler()
     def update(self, dt):
         walk = 200
@@ -66,39 +56,23 @@ class Player(PhysicalObjects):
         if self.key_handler[key.W]:
             self.y += walk * dt 
 
-main_character = Player(x=window.width//2, y=window.height//2, batch=main_batch)
-main_character.scale = 2.2
-
+main_character = Player(x=Window.window.width//2, y=Window.window.height//2, batch=Graphic.main_batch)
+main_character.scale = 2
 walls = Walls()
-#walls.scale = 2
-#game_objects = [main_character] + walls
 
-#Walls.wall_list.scale = 2
-
-window.push_handlers(main_character.key_handler)
+Window.window.push_handlers(main_character.key_handler)
 
 def update(dt):
     main_character.update(dt)
-    #walls.update()
 
-    '''for i in range(len(game_objects)):
-        for j in range(i+1, len(game_objects)):
-            obj_1 = game_objects[i]
-            obj_2 = game_objects[j]
-    if obj_1.collides_with(obj_2):
-        obj_1.handle_collision_with(obj_2)
-        obj_2.handle_collision_with(obj_1)'''
-    #for wall in wall_list:
-        #wall.update()
-
-@window.event
+@Window.window.event
 def on_draw():
-    window.clear()
-    wall_batch.draw()
-    main_batch.draw()
+    Window.window.clear()
+    Graphic.wall_batch.draw()
+    Graphic.main_batch.draw()
     
 if __name__ == '__main__':
-    pyglet.clock.schedule_interval(update, 1/120.0)  # на 120 уже не ускоряется, но немного фризит
+    pyglet.clock.schedule_interval(update, 1/60.0)
     pyglet.app.run()
 
 # 1. Вывести окно --done
@@ -110,7 +84,7 @@ if __name__ == '__main__':
         # добавить коллизию
 # 4. Сделать комнату 
         # с коллизией 
-        # с текстурами стен
+        # с текстурами стен --done
         # с текстурой пола
 # 5. Сделать анимацию персонажу
         # ходьбы
