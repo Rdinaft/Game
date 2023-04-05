@@ -9,10 +9,11 @@ def center_image(image):
     image.anchor_x = image.width // 2
     image.anchor_y = image.height // 2
 
-pyglet.resource.path = ['game/resources']
-pyglet.resource.reindex()
-main_batch = pyglet.graphics.Batch()
-wall_batch = pyglet.graphics.Batch()
+def reindex_resources_path():
+    pyglet.resource.path = ['game/resources']
+    pyglet.resource.reindex()
+    
+reindex_resources_path()
 
 main_character_image = img_source('cat1.png')
 center_image(main_character_image)
@@ -26,4 +27,3 @@ wall_list = []
 
 for wall in wall_list:
     center_image(wall)
-

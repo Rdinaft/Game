@@ -1,9 +1,9 @@
 import pyglet
 from constants import TICKRATE
-from player import main_character
-from resources import wall_batch, main_batch, wall_list
+from player import main_character, main_batch
+from resources import wall_list
 from window import window
-from walls import create_walls
+from walls import create_walls, wall_batch
 
 
 create_walls(wall_list)
