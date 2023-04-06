@@ -1,4 +1,5 @@
 import pyglet
+from constants import RESOURCES_PATH
 
 
 def img_source(image):
@@ -10,8 +11,16 @@ def center_image(image):
     image.anchor_y = image.height // 2
 
 def reindex_resources_path():
-    pyglet.resource.path = ['game/resources']
+    pyglet.resource.path = RESOURCES_PATH
     pyglet.resource.reindex()
+
+def anchoring_list(list_name):
+    for i in list_name:
+        return center_image(i)
+
+def one_wall():
+    for wall in range(len(wall_list)):
+        return wall_list[wall]
     
 reindex_resources_path()
 
@@ -25,5 +34,7 @@ walls_right = [img_source('wr1.png'), img_source('wr2.png'), img_source('wr3.png
 
 wall_list = []
 
-for wall in wall_list:
-    center_image(wall)
+floor = img_source('floor.png')
+center_image(floor)
+
+all_floor = []
