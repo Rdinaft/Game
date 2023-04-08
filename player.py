@@ -1,10 +1,11 @@
 import pyglet
 from pyglet.sprite import Sprite
 from pyglet.window import key
-from resources import cat_character_image, primary_wall_list
+from resources import cat_character_image
 from collision_check import are_objects_collided, calculate_objects_interposition
 from constants import CAT_CHARACTER_SIZE_MULTIPLIER, WALKING_SPEED, SPEEDUP_MODIFICATOR
 from window import WINDOW
+from walls import primary_wall_list
 
 
 class Player(Sprite):
@@ -24,11 +25,11 @@ class Player(Sprite):
             if are_objects_collided(self, wall):
                 if calculate_objects_interposition(self, wall) == 'left':
                     self.can_move_left = False
-                if calculate_objects_interposition(self, wall) == 'right':
+                elif calculate_objects_interposition(self, wall) == 'right':
                     self.can_move_right = False
-                if calculate_objects_interposition(self, wall) == 'up':
+                elif calculate_objects_interposition(self, wall) == 'up':
                     self.can_move_up = False
-                if calculate_objects_interposition(self, wall) == 'down':
+                elif calculate_objects_interposition(self, wall) == 'down':
                     self.can_move_down = False 
         
         if self.key_handler[key.SPACE]:

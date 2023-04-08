@@ -1,9 +1,9 @@
 import pyglet
 from constants import TICKRATE
 from player import CAT_CHARACTER, CAT_BATCH
-from resources import primary_wall_list, anchoring_list
+from resources import anchoring_list
 from window import WINDOW
-from walls import create_primary_walls, WALL_BATCH
+from walls import create_primary_walls, WALL_BATCH, primary_wall_list
 from floor import FLOOR_BATCH, create_floor
 
 
@@ -25,3 +25,4 @@ def on_draw():
 if __name__ == '__main__':   
     pyglet.clock.schedule_interval(update, TICKRATE)
     pyglet.app.run()
+    

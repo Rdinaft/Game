@@ -1,11 +1,12 @@
 import pyglet
 import random
 from pyglet.sprite import Sprite
-from resources import walls_top, walls_left, walls_right, walls_bot, primary_wall_list
+from resources import walls_top, walls_left, walls_right, walls_bot
 from window import WINDOW, sprites_per_window_x, sprites_per_window_y
 
 
 WALL_BATCH = pyglet.graphics.Batch()
+primary_wall_list = []
 
 def create_primary_walls():
     vert_wall = walls_left[0]

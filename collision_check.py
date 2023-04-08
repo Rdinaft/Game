@@ -5,7 +5,7 @@ def are_objects_collided(obj1, obj2):
         (obj1.width // 2 - obj2.width // 2) ** 2, 
         (obj1.height // 2 + obj2.height // 2) ** 2, 
         (obj1.height // 2 - obj2.height // 2) ** 2
-        ]
+    ]
     
     collision_check_parameters = [distance_between_objects_centers < distance for distance in conditions]
     return any(collision_check_parameters)
