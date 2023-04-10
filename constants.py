@@ -4,5 +4,5 @@ CAT_CHARACTER_SIZE_MULTIPLIER = 1.5
 TICKRATE = 1 / 120.0
 WALKING_SPEED = 200
 SPEEDUP_MODIFICATOR = 2.5
-RESOURCES_PATH = ['game/resources']
-GAME_NAME = ['Cat Tale', 'Cat Tail']
+RESOURCES_PATH = ["game/resources"]
+GAME_NAME = ["Cat Tale", "Cat Tail"]
