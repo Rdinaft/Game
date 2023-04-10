@@ -6,6 +6,7 @@ from resources import CAT_CHARACTER_IMAGE
 from constants import CAT_CHARACTER_SIZE_MULTIPLIER, WALKING_SPEED, SPEEDUP_MODIFICATOR
 from window import WINDOW
 from walls import PRIMARY_WALL_LIST
+from created_walls import CREATED_WALLS
 
 
 class Player(Sprite):
@@ -20,7 +21,7 @@ class Player(Sprite):
         self.can_move_up = True
         speed_modificator = 1
 
-        for wall in PRIMARY_WALL_LIST:
+        for wall in (PRIMARY_WALL_LIST + CREATED_WALLS):
             if are_objects_collided(self, wall):
                 if calculate_objects_interposition(self, wall) == "left":
                     self.can_move_left = False
