@@ -7,8 +7,7 @@ pyglet.resource.reindex()
 
 
 def img_source(image):
-    img = pyglet.resource.image(image)
-    return img
+    return pyglet.resource.image(image)
 
 
 def center_image(image):
