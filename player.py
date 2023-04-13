@@ -2,7 +2,7 @@ import pyglet
 from pyglet.sprite import Sprite
 from pyglet.window import key
 from collision_check import are_objects_collided, calculate_objects_interposition
-from resources import CAT_CHARACTER_IMAGE
+from resources import cat_set_image
 from constants import CAT_CHARACTER_SIZE_MULTIPLIER, WALKING_SPEED, SPEEDUP_MODIFICATOR
 from window import WINDOW
 from walls import PRIMARY_WALL_LIST
@@ -11,7 +11,7 @@ from created_walls import CREATED_WALLS
 
 class Player(Sprite):
     def __init__(self, *args, **kwargs):
-        super(Player, self).__init__(img=CAT_CHARACTER_IMAGE, *args, **kwargs)
+        super(Player, self).__init__(img=cat_set_image(), *args, **kwargs)
         self.key_handler = key.KeyStateHandler()
 
     def update(self, dt):
@@ -21,8 +21,10 @@ class Player(Sprite):
         self.can_move_up = True
         speed_modificator = 1
 
-        for wall in (PRIMARY_WALL_LIST + CREATED_WALLS):
+
+        for wall in PRIMARY_WALL_LIST + CREATED_WALLS:
             if are_objects_collided(self, wall):
+                print(calculate_objects_interposition(self, wall))
                 if calculate_objects_interposition(self, wall) == "left":
                     self.can_move_left = False
                 elif calculate_objects_interposition(self, wall) == "right":
@@ -44,7 +46,9 @@ class Player(Sprite):
             self.y += WALKING_SPEED * dt * speed_modificator
 
 
-CAT_BATCH = pyglet.graphics.Batch()
-CAT_CHARACTER = Player(x=WINDOW.width // 2, y=WINDOW.height // 2, batch=CAT_BATCH)
-CAT_CHARACTER.scale = CAT_CHARACTER_SIZE_MULTIPLIER
-WINDOW.push_handlers(CAT_CHARACTER.key_handler)
+def cat_character():
+    cat_batch = pyglet.graphics.Batch()
+    cat = Player(x=WINDOW.width // 2, y=WINDOW.height // 2, batch=cat_batch)
+    cat.scale = CAT_CHARACTER_SIZE_MULTIPLIER
+    WINDOW.push_handlers(cat.key_handler)
+    return cat, cat_batch

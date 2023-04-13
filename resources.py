@@ -20,37 +20,53 @@ def anchoring_list(images_list):
         return center_image(image)
 
 
-CAT_CHARACTER_IMAGE = img_source("cat1.png")
-center_image(CAT_CHARACTER_IMAGE)
+def cat_set_image():
+    cat_image = img_source("cat1.png")
+    center_image(cat_image)
+    return cat_image
 
-WALLS_TOP = [
-    img_source("w1.png"),
-    img_source("w2.png"),
-    img_source("w3.png"),
-    img_source("w4.png"),
-    img_source("w5.png"),
-    img_source("w6.png"),
-]
-WALLS_BOT = [
-    img_source("wb1.png"),
-    img_source("wb2.png"),
-    img_source("wb3.png"),
-    img_source("wb4.png"),
-    img_source("wb5.png"),
-    img_source("wb6.png"),
-]
-WALLS_LEFT = [
-    img_source("wl1.png"),
-    img_source("wl2.png"),
-    img_source("wl3.png"),
-    img_source("wl4.png"),
-]
-WALLS_RIGHT = [
-    img_source("wr1.png"),
-    img_source("wr2.png"),
-    img_source("wr3.png"),
-    img_source("wr4.png"),
-]
 
-FLOOR = img_source("floor.png")
-center_image(FLOOR)
+def upper_walls():
+    return [
+        img_source("w1.png"),
+        img_source("w2.png"),
+        img_source("w3.png"),
+        img_source("w4.png"),
+        img_source("w5.png"),
+        img_source("w6.png"),
+    ]
+
+
+def bottom_walls():
+    return [
+        img_source("wb1.png"),
+        img_source("wb2.png"),
+        img_source("wb3.png"),
+        img_source("wb4.png"),
+        img_source("wb5.png"),
+        img_source("wb6.png"),
+    ]
+
+
+def left_walls():
+    return [
+        img_source("wl1.png"),
+        img_source("wl2.png"),
+        img_source("wl3.png"),
+        img_source("wl4.png"),
+    ]
+
+
+def right_walls():
+    return [
+        img_source("wr1.png"),
+        img_source("wr2.png"),
+        img_source("wr3.png"),
+        img_source("wr4.png"),
+    ]
+
+
+def floor():
+    floor = img_source("floor.png")
+    center_image(floor)
+    return floor
