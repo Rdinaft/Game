@@ -70,3 +70,8 @@ def floor():
     floor = img_source("floor.png")
     center_image(floor)
     return floor
+
+def fish_food():
+    fish = img_source("fish.png")
+    center_image(fish)
+    return fish
