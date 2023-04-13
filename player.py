@@ -21,6 +21,7 @@ class Player(Sprite):
         self.can_move_up = True
         speed_modificator = 1
 
+
         for wall in PRIMARY_WALL_LIST + CREATED_WALLS:
             if are_objects_collided(self, wall):
                 print(calculate_objects_interposition(self, wall))
