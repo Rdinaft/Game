@@ -6,11 +6,7 @@ from window import WINDOW
 from walls import create_primary_walls, WALL_BATCH, PRIMARY_WALL_LIST
 from floor import FLOOR_BATCH, create_floor
 from created_walls import CREATED_WALLS_BATCH, place_new_walls
-
-
-create_primary_walls()
-place_new_walls(10, 20)
-anchoring_list(PRIMARY_WALL_LIST)
+from fish import place_fish, score_count, score_label
 
 
 def update(dt):
@@ -24,9 +20,15 @@ def on_draw():
     cat_batch.draw()
     WALL_BATCH.draw()
     CREATED_WALLS_BATCH.draw()
+    fish_batch.draw()
+    score_label(score_count(cat, fish)).draw()
 
 
 if __name__ == "__main__":
+    create_primary_walls()
+    place_new_walls(10, 20)
+    anchoring_list(PRIMARY_WALL_LIST)
+    fish, fish_batch = place_fish()
     cat, cat_batch = cat_character()
     all_floor = create_floor()
     pyglet.clock.schedule_interval(update, TICKRATE)
